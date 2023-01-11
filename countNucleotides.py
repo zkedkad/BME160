@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 # Name: Ziad Kedkad (zkedkad)
 # Group Members: none
-
+"""
+This program inputs a DNA sequence from a user. It then counts
+the total length of that sequence and outputs both the length
+of the sequence and the number of each nucleotide present.
+"""
 class dnaString (str):
     def length (self):
         return (len(self))
@@ -25,5 +29,6 @@ class dnaString (str):
 dna = input("Enter a dna sequence: ")
 upperDNA = dna.upper()
 coolString = dnaString(upperDNA)
+# Here the user is greeted with two statements with the calculated results
 print("Your sequence is {0:0.1f}".format(coolString.length()) + " nucleotides long with the following break down of bases:")
 print("number As = {0:0.1f}".format(coolString.getA()) + "number Cs = {0:0.1f}".format(coolString.getC()) + "number Gs = {0:0.1f}".format(coolString.getG()) + "number Ts = {0:0.1f}".format(coolString.getT()))
