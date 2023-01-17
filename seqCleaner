@@ -11,16 +11,17 @@ output: AA{6}GTC
 
 Any lower case letters are converted to uppercase
 '''
-
+#Function to count length of DNA
 class DNAstring (str):
   def length (self):
     return (length(self))
+
+    # Function to clean DNA 
   def purify(self):
-        ''' Return an upcased version of the string, collapsing a single run of Ns.'''
         
         return pureDNA
    
-   
+#Function that is called   
 def main():
   ''' Get user DNA data and clean it up.'''
   while (True):
