@@ -11,25 +11,36 @@ output: AA{6}GTC
 
 Any lower case letters are converted to uppercase
 '''
-#Function to count length of DNA
+
+
+# Function to count length of DNA
 class DNAstring:
-  def __init__ (self, dna):
-    self.dna = dna
+    def __init__(self, dna):
+        self.dna = dna
 
-  def length(self):
-    return (len(self))
+    def length(self):
+        return (len(self))
 
-    # Function to clean DNA 
-  def purify(self):
-    self.dna.count("N", "n")
-    return splitdna
-   
-#Function that is called that runs data through purifier  
+        # Function to clean DNA
+
+    def purify(self):
+        upperdna = self.dna.upper()
+        numbers = upperdna.count("N")
+        first_n = upperdna.find("N")
+        purify_dna = upperdna.replace("N", "")
+        dna_list = list(purify_dna)
+        final_dna = dna_list.insert(first_n, {numbers})
+        final_string_output = " ".join(dna_list)
+        return final_string_output
+
+
+# Function that is called that runs data through purifier
 def main():
-  while (True):
-    data = input('DNA data?')
-    thisDNA = DNAstring(data)
-    pureData = thisDNA.purify()
-    print(pureData)
-    
+    while (True):
+        data = input('DNA data?')
+        thisDNA = DNAstring(data)
+        pureData = thisDNA.purify()
+        print(pureData)
+
+
 main()
