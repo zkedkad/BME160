@@ -21,8 +21,10 @@ class DNAstring:
 
     # Function to clean DNA 
   def purify(self):
-    self.dna.count("N", "n")
-    return splitdna
+    upperdna = self.dna.upper()
+    numbers = upperdna.count("N")
+    purifydna = upperdna.replace("N", "")
+    return purifydna
    
 #Function that is called that runs data through purifier  
 def main():
