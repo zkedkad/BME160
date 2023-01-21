@@ -1,12 +1,9 @@
 #!/usr/bin/env python3 
 # Name: Your full name
 # Group Members: List full names or “None”
-'''
+"""
 Program docstring goes here
-'''
-import math
-class Triad :
-    """
+
     Calculate angles and distances among a triad of points.
  
     Author: David Bernick
@@ -23,18 +20,25 @@ class Triad :
     attributes: p,q,r the 3 tuples representing points in N-space
     methods:  angleP(), angleR(), angleQ() angles measured in radians
           dPQ(), dPR(), dQR() distances in the same units of p,q,r
- 
-    """
- 
-    def __init__(self,p,q,r) :
-        """ Construct a Triad. 
+          Construct a Triad. 
         
         Example construction:
             p1 = Triad( p=(1.,0.,0.), q=(0.,0.,0.), r=(0.,0.,0.) ). 
-        """
-        self.p = p
-        self.q = q
-        self.r = r
+ 
+    """
+import math
+class Triad:
+    def __init__(self, data):
+        #self.p = p
+        #self.q = q
+        #self.r = r
+        self.data = data
+#begin by seperating for each letter by searching parenthasis then seperating singular data points by spliting commas
+    def purify(self):
+        p_p1 = self.data.find("(")
+        p_p2 = self.data.find(")")
+        q = self.data[p_p1:p_p2]
+        return q
         
 # private helper methods
     def d2 (self,a,b) : # calculate squared distance of point a to b
@@ -74,6 +78,9 @@ class Triad :
         return math.acos(self.ndot(self.p,self.r,self.q) /
                          math.sqrt(self.d2(self.p,self.r) * self.d2(self.q,self.r)))
 def main():
-  ''' Function docstring goes here'''
+  data = input("Input three sets of coordinates: ")
+  purified_data = Triad(data)
+  polished_data = purified_data.purify()
+  print(purified_data)
   pass
 main()
