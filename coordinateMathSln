@@ -28,17 +28,10 @@ Program docstring goes here
     """
 import math
 class Triad:
-    def __init__(self, data):
-        #self.p = p
-        #self.q = q
-        #self.r = r
-        self.data = data
-#begin by seperating for each letter by searching parenthasis then seperating singular data points by spliting commas
-    def purify(self):
-        p_p1 = self.data.find("(")
-        p_p2 = self.data.find(")")
-        q = self.data[p_p1:p_p2]
-        return q
+    def __init__(self,p,q,r):
+        self.p = p
+        self.q = q
+        self.r = r
         
 # private helper methods
     def d2 (self,a,b) : # calculate squared distance of point a to b
@@ -77,10 +70,28 @@ class Triad:
         """ Provides the angle made at point r by segments rp and rq (radians). """
         return math.acos(self.ndot(self.p,self.r,self.q) /
                          math.sqrt(self.d2(self.p,self.r) * self.d2(self.q,self.r)))
+
+#begin by seperating for each letter by searching parenthasis then seperating singular data points by spliting commas
+# this makes a list in which I can hand pick each coordinate ignoring the letters and equal signs
 def main():
   data = input("Input three sets of coordinates: ")
-  purified_data = Triad(data)
-  polished_data = purified_data.purify()
-  print(purified_data)
+  t1 = data.replace ('(', ',') # change ( to ,
+  t2 = t1.replace (')', ',')    # change ) to ,
+  l  = t2.split (',')           # split on ,
+  p = (float(l[1]),float(l[2]), float(l[3])) #I hand pick my floats within the list made
+  q = (float(l[5]),float(l[6]), float(l[7]))
+  r = (float(l[9]),float(l[10]), float(l[11]))
+  purified_data = Triad(p, q, r) #I input my data values within my class so that I can use the triad class functionality
+  angle_P = purified_data.angleP()
+  angle_Q = purified_data.angleQ()
+  angle_R = purified_data.angleR()
+  total_angle_radians = angle_P + angle_Q + angle_R
+  total_angle_degrees = total_angle_radians
+  distance_PQ = purified_data.dPQ()
+  distance_PR = purified_data.dPR()
+  distance_QR = purified_data.dQR()
+  print("N-C bond length = {0:0.2f}".format(distance_PQ))
+  print("N-Ca bond length = {0:0.2f}".format(distance_QR))
+  print("C-N-Ca bond angle = {0:0.2f}".format(total_angle_degrees))
   pass
 main()
