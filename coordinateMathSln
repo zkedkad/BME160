@@ -85,8 +85,7 @@ def main():
   angle_P = purified_data.angleP()
   angle_Q = purified_data.angleQ()
   angle_R = purified_data.angleR()
-  total_angle_radians = angle_P + angle_Q + angle_R
-  total_angle_degrees = (57.296 * total_angle_radians)
+  total_angle_degrees = 57.296 * angle_Q 
   distance_PQ = purified_data.dPQ()
   distance_PR = purified_data.dPR()
   distance_QR = purified_data.dQR()
