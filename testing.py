@@ -25,10 +25,11 @@ class DNAstring:
 
     def purify(self):
         upperdna = self.dna.upper()
-        comma_data = upperdna.replace("", ",")
-        list_data = comma_data.split(",")
-        print(list_data)
-        return
+        count_n = upperdna.count("N")
+        find_n = upperdna.find("N")
+        list_dna = list(upperdna)
+        print(find_n)
+        return 
 
 # Function that is called that runs data through purifier
 def main():
