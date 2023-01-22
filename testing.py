@@ -28,7 +28,8 @@ class DNAstring:
         count_n = upperdna.count("N")
         find_n = upperdna.find("N")
         list_dna = list(upperdna)
-        print(find_n)
+        list_dna[find_n] = count_n
+        print(list_dna)
         return 
 
 # Function that is called that runs data through purifier
