@@ -42,6 +42,8 @@ dnaCodonTable = {key.replace('U','T'):value for key, value in rnaCodonTable.item
 
 def main():
     ''' Function docstring goes here'''
+    data = input("Input AA you want to convert: ")
+    
     pass
 
 main()
