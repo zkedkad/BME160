@@ -1,0 +1,19 @@
+gett = input("something")
+gett = gett.lower()
+gett = gett.replace('.', '')
+gett = gett.replace(',', '')
+gett = gett.replace('—', ' ')
+gett = gett.replace('_', ' ')
+gett = gett.replace('--', ' ')
+gett = gett.replace('  ', '')
+gett = gett.split(' ')
+print (gett)
+gettdict = {}
+for i in gett:
+    if i in gettdict:
+        gettdict[i] += 1
+    else:
+        gettdict[i] = 1
+print("Number of unique words: " , len(gettdict))
+print("\n Most used word: " , max(gettdict.values()))
+print("The word itself: ",max(gett))
