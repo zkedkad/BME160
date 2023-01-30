@@ -20,15 +20,7 @@ class ProteinParam :
         'P': 115.131, 'V': 117.146, 'E': 147.129, 'K': 146.188, 'Q': 146.145,
         'W': 204.225,  'F': 165.189, 'L': 131.173, 'R': 174.201, 'Y': 181.189
         }
-
-    mwH2O = 18.015
-    aa2abs280= {'Y':1490, 'W': 5500, 'C': 125}
-
-    aa2chargePos = {'K': 10.5, 'R':12.4, 'H':6}
-    aa2chargeNeg = {'D': 3.86, 'E': 4.25, 'C': 8.33, 'Y': 10}
-    aaNterm = 9.69
-    aaCterm = 2.34
-
+    
     def __init__ (self, protein):
         self.protein = protein.upper()
         self.count = {}
