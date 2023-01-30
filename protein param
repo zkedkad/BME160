@@ -1,55 +1,64 @@
 #!/usr/bin/env python3
 # Name: Your full name (cruzID)
 # Group Members: List full names (and cruzIDs) or “None”
+''' These tables are for calculating:
+     molecular weight (aa2mw), along with the mol. weight of H2O (mwH2O)
+     absorbance at 280 nm (aa2abs280)
+     pKa of positively charged Amino Acids (aa2chargePos)
+     pKa of negatively charged Amino acids (aa2chargeNeg)
+     and the constants aaNterm and aaCterm for pKa of the respective termini
+  Feel free to move these to appropriate methods as you like
+
+ As written, these are accessed as class attributes, for example:
+ ProteinParam.aa2mw['A'] or ProteinParam.mwH2O
+'''
 
 class ProteinParam :
-# These tables are for calculating:
-#     molecular weight (aa2mw), along with the mol. weight of H2O (mwH2O)
-#     absorbance at 280 nm (aa2abs280)
-#     pKa of positively charged Amino Acids (aa2chargePos)
-#     pKa of negatively charged Amino acids (aa2chargeNeg)
-#     and the constants aaNterm and aaCterm for pKa of the respective termini
-#  Feel free to move these to appropriate methods as you like
-
-# As written, these are accessed as class attributes, for example:
-# ProteinParam.aa2mw['A'] or ProteinParam.mwH2O
-
     aa2mw = {
-        'A': 89.093,  'G': 75.067,  'M': 149.211, 'S': 105.093, 'C': 121.158,
+        'A': 89.093,  'G': 75.067,  'M': 149.211, 'S': 105.093, 'C': 121.158, #stored molecular weight of amino acids
         'H': 155.155, 'N': 132.118, 'T': 119.119, 'D': 133.103, 'I': 131.173,
         'P': 115.131, 'V': 117.146, 'E': 147.129, 'K': 146.188, 'Q': 146.145,
         'W': 204.225,  'F': 165.189, 'L': 131.173, 'R': 174.201, 'Y': 181.189
         }
     
     def __init__ (self, protein):
-        self.protein = protein.upper()
-        self.count = {}
-        for key,value in self.aa2mw.items():
+        self.mwH2O = 18.015
+        self.protein = protein.upper() #uppercase inputed amino acid
+        self.count = {}    #counts input and stores it
+        for key,value in self.aa2mw.items(): #iterates every letter and stores key values
             self.count[key] = protein.count(key)
 
     def aaCount (self):
-        value = self.count.values()
-        return sum(value)
+        value = self.count.values() #stores count within variable value
+        return sum(value) #returns the sum of the values
     
+    '''
+        Function computes the optimal pH of the amino acid using binary search. Mid is the middle of the pH times 100
+        due to the fact we need 2 decimal points. Add is the number that is subtracted from the middle value that creates
+        a second mid point after the first search is done (quarters). 
+        '''
     def pIm(self, mid = 700, add = 350):
-        if (abs(self._charge_(0)) < abs(self._charge_(0.01))):
+        if (abs(self._charge_(0)) < abs(self._charge_(0.01))): #if the pH is below 0.01 then it will be 0
             return 0
-        elif (abs(self._charge_(14)) < abs(self._charge_(13.99))):
+        elif (abs(self._charge_(14)) < abs(self._charge_(13.99))): #if the pH is bigger than 13.99 it is 14
             return 14
-        elif (abs(self._charge_(mid/100.0)) > abs(self._charge_((mid + 1) / 100.0))):
-            return self.pI((int)(mid+add),(int)(add/2))
-        elif (abs(self._charge_(mid/100.0)) > abs(self._charge_((mid - 1) / 100.0))):
-            return self.pI((int)(mid - add),(int)(add / 2))
+        elif (abs(self._charge_(mid / 100.0)) > abs(self._charge_((mid + 1) / 100.0))): #if charge is greater than greater, good, but if lower than 
+            return self.pI((int)(mid + add),(int)(add / 2)) #it will trigger halfing the top half
+        elif (abs(self._charge_(mid/100.0)) > abs(self._charge_((mid - 1) / 100.0))): #if charge is greater than lower, good, but if higher then
+            return self.pI((int)(mid - add),(int)(add / 2)) #it will trigger the bottom half 
         else:
-            return (mid / 100)
+            return (mid / 100) #if nothing, then we settle with exactly 7 pH
 
+        '''
+        Function looks for optimal pH but instead iterating through every pH value linearly. 
+        '''
     def pI (self):
-        ph = 0.01
-        charge = self._charge_(0)
+        ph = 0.01 #initialize the variable to 0.01
+        charge = self._charge_(0) #find the charge at pH 0 
         while ph <= 14:
-            if abs(self._charge_(ph)) > abs(charge):
+            if abs(self._charge_(ph)) > abs(charge): #compare the charge that is 0.01 less, if greater 
                 return ph - 0.01
-            charge = self._charge_(ph)
+            charge = self._charge_(ph)  #stores the latest charge 
             ph += 0.01
         return 14
 
@@ -83,7 +92,6 @@ class ProteinParam :
         return self.molarExtinction() / myMW if myMW else 0.0
 
     def molecularWeight (self):
-        mwH2O = 18.015
         sum = self.mwH2O
         for key,value in self.aa2mw.items():
             sum += self.aa2mw[key] * self.count[key] - self.mwH2O * self.count[key]
