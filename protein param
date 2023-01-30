@@ -88,13 +88,13 @@ class ProteinParam :
         return mol
 
     def massExtinction (self):
-        myMW =  self.molecularWeight()
-        return self.molarExtinction() / myMW if myMW else 0.0
+        myMW =  self.molecularWeight() #stores molecular weight into variable 
+        return self.molarExtinction() / myMW if myMW else 0.0 #return molar extension devided by molecular weight 
 
     def molecularWeight (self):
-        sum = self.mwH2O
-        for key,value in self.aa2mw.items():
-            sum += self.aa2mw[key] * self.count[key] - self.mwH2O * self.count[key]
+        sum = self.mwH2O #store molecular weight of H2O in variable 
+        for key,value in self.aa2mw.items():  #iterate through dictionary for every key and value of aa2mw
+            sum += self.aa2mw[key] * self.count[key] - self.mwH2O * self.count[key] #sum calculation of molecular weight minus weight of water
         return sum
 
 
