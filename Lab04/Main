@@ -29,9 +29,18 @@ class NucParams:
         self.codonComposition = {codon:0 for codon in self.rnaCodonTable}
         self.aaComposition = {aa:0 for aa in self.rnaCodonTable.values()}
         self.nucComposition = {nuc:0 for nuc in 'ACGTNU'}
-        self.dnaCodonTable = {dna:0 for dna in NucParams.dnaCodonTable}
-        pass
-    def addSequence (self, inSeq):
+
+    def addSequence (self, inSeq): #inSeq for sequence
+        for index in range (0, len(inSeq), 3): #start, seqnece length read(end), and final is step (increments of 3)
+            codon = inSeq[index:index+3].upper()
+            for i in codon:
+                if i in self.nucComposition:
+                    codon = {}
+            replace()
+            if codon in self.rnaCodonTable:
+                self.aaComposition += 1
+                self.codonComposition += 1
+
         pass
     def aaComposition(self):
         return self.aaComp
