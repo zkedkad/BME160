@@ -12,5 +12,5 @@ def main (fileName=None):
         print ('{:s} : {:s} {:5.1f} ({:6d})'.format(nuc, aa, val*100, thisCodonComp[nuc]))
 
 if __name__ == "__main__":
-    main('testGenome.fa') # make sure to change this in order to use stdin
+    main(stdin) # make sure to change this in order to use stdin, main('testGenome.fa')
     

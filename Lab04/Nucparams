@@ -24,13 +24,8 @@ class NucParams:
     }
     dnaCodonTable = {key.replace('U','T'):value for key, value in rnaCodonTable.items()}
 
-    def __init__ (self, inString=''):
-        self.file = 
+    def __init__ (self, inString=''): 
         pass
-        '''self.protein = protein.upper() #uppercase inputed amino acid
-        self.count = {}    #counts input and stores it
-        for key,value in self.aa2mw.items(): #iterates every letter and stores key values
-            self.count[key] = protein.count(key)'''
     def addSequence (self, inSeq):
         pass
     def aaComposition(self):
