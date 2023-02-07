@@ -35,4 +35,4 @@ class NucParams:
     def codonComposition(self):
         return self.codonComp
     def nucCount(self):
-        return sum(self.nucComp)
+        return sum(self.nucComp.values())
