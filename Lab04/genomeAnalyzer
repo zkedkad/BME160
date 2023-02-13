@@ -1,4 +1,5 @@
-import sequenceAnalysis as seqAnalysis
+import sequenceAnalysis.py as seqAnalysis
+
 def main (fileName=None):
     myReader = seqAnalysis.FastAreader(fileName) 
     myNuc = seqAnalysis.NucParams()
