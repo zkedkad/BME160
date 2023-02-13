@@ -1,3 +1,4 @@
+import sequenceAnalysis as seqAnalysis
 def main (fileName=None):
     myReader = seqAnalysis.FastAreader(fileName) 
     myNuc = seqAnalysis.NucParams()
@@ -9,7 +10,7 @@ def main (fileName=None):
     # calculate relative codon usage for each codon and print
     for nucI in nucs:
         ...
-        print ('{:s} : {:s} {:5.1f} ({:6d})'.format(nuc, aa, val*100, thisCodonComp[nuc]))
+        print ('{:s} : {:s} {:5.1f} ({:6d})'.format(count, aa, val*100, thisCodonComp[nuc]))
 
 if __name__ == "__main__":
     main('testGenome.fa') # make sure to change this in order to use stdin
