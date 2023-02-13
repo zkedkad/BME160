@@ -1,4 +1,51 @@
 import sys
+class FastAreader :
+    ''' 
+    Define objects to read FastA files.
+    
+    instantiation: 
+    thisReader = FastAreader ('testTiny.fa')
+    usage:
+    for head, seq in thisReader.readFasta():
+        print (head,seq)
+    '''
+    def __init__ (self, fname=None):
+        '''contructor: saves attribute fname '''
+        self.fname = fname
+            
+    def doOpen (self):
+        ''' Handle file opens, allowing STDIN.'''
+        if self.fname is None:
+            return sys.stdin
+        else:
+            return open(self.fname)
+        
+    def readFasta (self):
+        ''' Read an entire FastA record and return the sequence header/sequence'''
+        header = ''
+        sequence = ''
+        
+        with self.doOpen() as fileH:
+            
+            header = ''
+            sequence = ''
+            
+            # skip to first fasta header
+            line = fileH.readline()
+            while not line.startswith('>') :
+                line = fileH.readline()
+            header = line[1:].rstrip()
+
+            for line in fileH:
+                if line.startswith ('>'):
+                    yield header,sequence
+                    header = line[1:].rstrip()
+                    sequence = ''
+                else :
+                    sequence += ''.join(line.rstrip().split()).upper()
+
+        yield header,sequence
+
 class ProteinParam :
     aa2mw = {
         'A': 89.093,  'G': 75.067,  'M': 149.211, 'S': 105.093, 'C': 121.158, #stored molecular weight of amino acids
@@ -96,7 +143,8 @@ class ProteinParam :
         return total
 
 class NucParams:
-    rnaCodonTable = {
+    def __init__ (self, inString=''): 
+        self.rnaCodonTable = {
     # RNA codon table
     # U
     'UUU': 'F', 'UCU': 'S', 'UAU': 'Y', 'UGU': 'C',  # UxU
@@ -119,9 +167,7 @@ class NucParams:
     'GUA': 'V', 'GCA': 'A', 'GAA': 'E', 'GGA': 'G',  # GxA
     'GUG': 'V', 'GCG': 'A', 'GAG': 'E', 'GGG': 'G'  # GxG
     }
-    dnaCodonTable = {key.replace('U','T'):value for key, value in rnaCodonTable.items()}
-
-    def __init__ (self, inString=''): 
+        self.dnaCodonTable = {key.replace('U','T'):value for key, value in self.rnaCodonTable.items()}
         self.codonComposition = {codon:0 for codon in self.rnaCodonTable}
         self.aaComposition = {aa:0 for aa in self.rnaCodonTable.values()}
         self.nucComposition = {nuc:0 for nuc in 'ACGTNU'}
@@ -132,81 +178,17 @@ class NucParams:
             for i in codon:
                 if i in self.nucComposition:
                     codon = {}
-            replace()
+            #replace() this was required of me but didn't know its use
             if codon in self.rnaCodonTable:
                 self.aaComposition += 1
                 self.codonComposition += 1
 
         pass
     def aaComposition(self):
-        return self.aaComp
+        return self.aaComposition
     def nucComposition(self):
-        return self.nucComp
+        return self.nucComposition
     def codonComposition(self):
-        return self.codonComp
+        return self.codonComposition
     def nucCount(self):
-        return sum(self.nucComp.values())
-
-class FastAreader :
-    ''' 
-    Define objects to read FastA files.
-    
-    instantiation: 
-    thisReader = FastAreader ('testTiny.fa')
-    usage:
-    for head, seq in thisReader.readFasta():
-        print (head,seq)
-    '''
-    def __init__ (self, fname=None):
-        '''contructor: saves attribute fname '''
-        self.fname = fname
-            
-    def doOpen (self):
-        ''' Handle file opens, allowing STDIN.'''
-        if self.fname is None:
-            return sys.stdin
-        else:
-            return open(self.fname)
-        
-    def readFasta (self):
-        ''' Read an entire FastA record and return the sequence header/sequence'''
-        header = ''
-        sequence = ''
-        
-        with self.doOpen() as fileH:
-            
-            header = ''
-            sequence = ''
-            
-            # skip to first fasta header
-            line = fileH.readline()
-            while not line.startswith('>') :
-                line = fileH.readline()
-            header = line[1:].rstrip()
-
-            for line in fileH:
-                if line.startswith ('>'):
-                    yield header,sequence
-                    header = line[1:].rstrip()
-                    sequence = ''
-                else :
-                    sequence += ''.join(line.rstrip().split()).upper()
-
-        yield header,sequence
-
-def main (fileName=None):
-    myReader = FastAreader(fileName) 
-    myNuc = NucParams()
-    for head, seq in myReader.readFasta() :
-        myNuc.addSequence(seq)
-        
-    # sort codons in alpha order, by Amino Acid
-    
-    # calculate relative codon usage for each codon and print
-    for nucI in nucs:
-        ...
-        print ('{:s} : {:s} {:5.1f} ({:6d})'.format(nuc, aa, val*100, thisCodonComp[nuc]))
-
-if __name__ == "__main__":
-    main('testGenome.fa') # make sure to change this in order to use stdin, main('testGenome.fa')
-    
+        return sum(self.nucComposition.values())
