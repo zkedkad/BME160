@@ -1,4 +1,4 @@
-import sequenceAnalysis.py as seqAnalysis
+import sequenceAnalysis as seqAnalysis
 
 def main (fileName=None):
     myReader = seqAnalysis.FastAreader(fileName) 
