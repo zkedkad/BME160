@@ -1,0 +1,14 @@
+from sequenceAnalysis import NucParams, ProteinParam, FastAreader 
+class genomeAnalyzer:
+    def __init__(self, filename=None):
+        self.inseq=filename
+    def codons(self, filename):
+        myReader = FastAreader(filename)
+        myNuc = NucParams()
+        for head,seq in myReader.readFasta():
+            myNuc.addSequence(seq)
+        print(myNuc.aaCompDict)
+        myNuc.aaCompDict(seq)
+    def main(filename=testGenome.fa):
+        pass
+

@@ -45,7 +45,60 @@ class FastAreader :
                     sequence += ''.join(line.rstrip().split()).upper()
 
         yield header,sequence
+class NucParams:
+    rnaCodonTable = {
+    # RNA codon table
+    # U
+    'UUU': 'F', 'UCU': 'S', 'UAU': 'Y', 'UGU': 'C',  # UxU
+    'UUC': 'F', 'UCC': 'S', 'UAC': 'Y', 'UGC': 'C',  # UxC
+    'UUA': 'L', 'UCA': 'S', 'UAA': '-', 'UGA': '-',  # UxA
+    'UUG': 'L', 'UCG': 'S', 'UAG': '-', 'UGG': 'W',  # UxG
+    # C
+    'CUU': 'L', 'CCU': 'P', 'CAU': 'H', 'CGU': 'R',  # CxU
+    'CUC': 'L', 'CCC': 'P', 'CAC': 'H', 'CGC': 'R',  # CxC
+    'CUA': 'L', 'CCA': 'P', 'CAA': 'Q', 'CGA': 'R',  # CxA
+    'CUG': 'L', 'CCG': 'P', 'CAG': 'Q', 'CGG': 'R',  # CxG
+    # A
+    'AUU': 'I', 'ACU': 'T', 'AAU': 'N', 'AGU': 'S',  # AxU
+    'AUC': 'I', 'ACC': 'T', 'AAC': 'N', 'AGC': 'S',  # AxC
+    'AUA': 'I', 'ACA': 'T', 'AAA': 'K', 'AGA': 'R',  # AxA
+    'AUG': 'M', 'ACG': 'T', 'AAG': 'K', 'AGG': 'R',  # AxG
+    # G
+    'GUU': 'V', 'GCU': 'A', 'GAU': 'D', 'GGU': 'G',  # GxU
+    'GUC': 'V', 'GCC': 'A', 'GAC': 'D', 'GGC': 'G',  # GxC
+    'GUA': 'V', 'GCA': 'A', 'GAA': 'E', 'GGA': 'G',  # GxA
+    'GUG': 'V', 'GCG': 'A', 'GAG': 'E', 'GGG': 'G'  # GxG
+    }
+    dnaCodonTable = {key.replace('U','T'):value for key, value in self.rnaCodonTable.items()}
 
+    def __init__ (self, inString=''): 
+        self.addSequence = inString #retrieves string to insert into addsequence
+        self.inString = inString #initializes variable to saves the sequence within the variable for later use
+        self.codonComp = {codon:0 for codon in self.rnaCodonTable} #codon intiialized to 0 and dictionary created for codon
+        self.aaComp = {aa:0 for aa in self.rnaCodonTable.values()} #amino acid initialized to 0 and dictionary created to amino acids within codon table values (single letters)
+        self.nucComp = {nuc:0 for nuc in 'ACGTNU'} #nucleotide initialized to 0 and nucleotide set to only the valid charecters
+
+    def addSequence (self, inSeq): #inSeq for sequence
+        for index in range (0, len(inSeq), 3): #start, seqnece length read(end), and final is step (increments of 3)
+            codon = inSeq[index:index+3].upper().replace(' ', '').replace('T', 'U') #codon is every 3 nucleotides, uppercases, removes white space and leaves only U rather than T b/c dictionary key does't match
+            for i in codon: #for statment iterates through every set codon made prior
+                if i in self.codonComp.keys(): #interates through codon and compares to rnaCodonTable dictionary made within init statement
+                    self.codonComp[codon] += 1 #when if statement true, adds one to codon within the self.codonComp and stores within codon within init
+                if codon in self.rnaCodonTable.keys(): 
+                    self.aaComp[self.rnaCodonTable[codon]] += 1
+        for nuc in inSeq: #for statment itertes through every nucleotide acceptable within dictionary created within innit
+            if inSeq in self.nucComp: #if sequence contains valid nucleotide then add 1
+                self.nucComp[nuc] += 1 #added one into nucleotide and stored within dictionary nucComp created within iniit
+
+        pass
+    def aaComposition(self):
+        return self.aaComp
+    def nucComposition(self):
+        return self.nucComp
+    def codonComposition(self):
+        return self.codonComp
+    def nucCount(self):
+        return sum(self.nucComp.values())
 class ProteinParam :
     aa2mw = {
         'A': 89.093,  'G': 75.067,  'M': 149.211, 'S': 105.093, 'C': 121.158, #stored molecular weight of amino acids
@@ -141,54 +194,3 @@ class ProteinParam :
         for key,value in self.aa2mw.items():  #iterate through dictionary for every key and value of aa2mw
             total += self.aa2mw[key] * self.count[key] - self.mwH2O * self.count[key] #sum calculation of molecular weight minus weight of water
         return total
-
-class NucParams:
-    def __init__ (self, inString=''): 
-        self.rnaCodonTable = {
-    # RNA codon table
-    # U
-    'UUU': 'F', 'UCU': 'S', 'UAU': 'Y', 'UGU': 'C',  # UxU
-    'UUC': 'F', 'UCC': 'S', 'UAC': 'Y', 'UGC': 'C',  # UxC
-    'UUA': 'L', 'UCA': 'S', 'UAA': '-', 'UGA': '-',  # UxA
-    'UUG': 'L', 'UCG': 'S', 'UAG': '-', 'UGG': 'W',  # UxG
-    # C
-    'CUU': 'L', 'CCU': 'P', 'CAU': 'H', 'CGU': 'R',  # CxU
-    'CUC': 'L', 'CCC': 'P', 'CAC': 'H', 'CGC': 'R',  # CxC
-    'CUA': 'L', 'CCA': 'P', 'CAA': 'Q', 'CGA': 'R',  # CxA
-    'CUG': 'L', 'CCG': 'P', 'CAG': 'Q', 'CGG': 'R',  # CxG
-    # A
-    'AUU': 'I', 'ACU': 'T', 'AAU': 'N', 'AGU': 'S',  # AxU
-    'AUC': 'I', 'ACC': 'T', 'AAC': 'N', 'AGC': 'S',  # AxC
-    'AUA': 'I', 'ACA': 'T', 'AAA': 'K', 'AGA': 'R',  # AxA
-    'AUG': 'M', 'ACG': 'T', 'AAG': 'K', 'AGG': 'R',  # AxG
-    # G
-    'GUU': 'V', 'GCU': 'A', 'GAU': 'D', 'GGU': 'G',  # GxU
-    'GUC': 'V', 'GCC': 'A', 'GAC': 'D', 'GGC': 'G',  # GxC
-    'GUA': 'V', 'GCA': 'A', 'GAA': 'E', 'GGA': 'G',  # GxA
-    'GUG': 'V', 'GCG': 'A', 'GAG': 'E', 'GGG': 'G'  # GxG
-    }
-        self.dnaCodonTable = {key.replace('U','T'):value for key, value in self.rnaCodonTable.items()}
-        self.codonComposition = {codon:0 for codon in self.rnaCodonTable}
-        self.aaComposition = {aa:0 for aa in self.rnaCodonTable.values()}
-        self.nucComposition = {nuc:0 for nuc in 'ACGTNU'}
-
-    def addSequence (self, inSeq): #inSeq for sequence
-        for index in range (0, len(inSeq), 3): #start, seqnece length read(end), and final is step (increments of 3)
-            codon = inSeq[index:index+3].upper()
-            for i in codon:
-                if i in self.nucComposition:
-                    codon = {}
-            if codon in self.rnaCodonTable:
-                self.aaComp += 1
-                self.codonComp += 1
-
-        pass
-    def aaComposition(self):
-        return self.aaComp
-    def nucComposition(self):
-        return self.nucComp
-    def codonComposition(self):
-        return self.codonComp
-    def nucCount(self):
-        return sum(self.nucComp.values())
-  
