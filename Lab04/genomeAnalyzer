@@ -1,4 +1,4 @@
-from sequenceAnalysis import NucParams, FastAreader
+from sequenceAnalysis import NucParams, FastAreader, ProteinParam
 class genomeAnalyzer:
     def __init__(self, filename='testGenome.fa'):
         self.genomeAnalyzer(filename)

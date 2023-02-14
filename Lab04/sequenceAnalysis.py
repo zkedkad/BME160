@@ -70,7 +70,7 @@ class NucParams:
     'GUA': 'V', 'GCA': 'A', 'GAA': 'E', 'GGA': 'G',  # GxA
     'GUG': 'V', 'GCG': 'A', 'GAG': 'E', 'GGG': 'G'  # GxG
     }
-    dnaCodonTable = {key.replace('U','T'):value for key, value in self.rnaCodonTable.items()}
+    dnaCodonTable = {key.replace('U','T'):value for key, value in rnaCodonTable.items()}
 
     def __init__ (self, inString=''): 
         self.addSequence = inString #retrieves string to insert into addsequence
