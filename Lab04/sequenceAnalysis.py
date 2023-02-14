@@ -1,51 +1,3 @@
-import sys
-class FastAreader :
-    ''' 
-    Define objects to read FastA files.
-    
-    instantiation: 
-    thisReader = FastAreader ('testTiny.fa')
-    usage:
-    for head, seq in thisReader.readFasta():
-        print (head,seq)
-    '''
-    def __init__ (self, fname=None):
-        '''contructor: saves attribute fname '''
-        self.fname = fname
-            
-    def doOpen (self):
-        ''' Handle file opens, allowing STDIN.'''
-        if self.fname is None:
-            return sys.stdin
-        else:
-            return open(self.fname)
-        
-    def readFasta (self):
-        ''' Read an entire FastA record and return the sequence header/sequence'''
-        header = ''
-        sequence = ''
-        
-        with self.doOpen() as fileH:
-            
-            header = ''
-            sequence = ''
-            
-            # skip to first fasta header
-            line = fileH.readline()
-            while not line.startswith('>') :
-                line = fileH.readline()
-            header = line[1:].rstrip()
-
-            for line in fileH:
-                if line.startswith ('>'):
-                    yield header,sequence
-                    header = line[1:].rstrip()
-                    sequence = ''
-                else :
-                    sequence += ''.join(line.rstrip().split()).upper()
-
-        yield header,sequence
-        
 class NucParams:
     rnaCodonTable = {
     # RNA codon table
@@ -196,3 +148,73 @@ class ProteinParam :
         for key,value in self.aa2mw.items():  #iterate through dictionary for every key and value of aa2mw
             total += self.aa2mw[key] * self.count[key] - self.mwH2O * self.count[key] #sum calculation of molecular weight minus weight of water
         return total
+    import sys
+def main():
+    inString = input('protein sequence?')
+    while inString:
+        myParamMaker = ProteinParam(inString)
+        myAAnumber = myParamMaker.aaCount()
+        print ("Number of Amino Acids: {aaNum}".format(aaNum = myAAnumber))
+        print ("Molecular Weight: {:.1f}".format(myParamMaker.molecularWeight()))
+        print ("molar Extinction coefficient: {:.2f}".format(myParamMaker.molarExtinction()))
+        print ("mass Extinction coefficient: {:.2f}".format(myParamMaker.massExtinction()))
+        print ("Theoretical pI: {:.2f}".format(myParamMaker.pI()))
+        print ("Amino acid composition:")
+        
+        if myAAnumber == 0 : myAAnumber = 1  # handles the case where no AA are present 
+        
+        for aa,n in sorted(myParamMaker.aaComposition().items(), 
+                           key= lambda item:item[0]):
+            print ("\t{} = {:.2%}".format(aa, n/myAAnumber))
+        inString = input('protein sequence?')
+
+if __name__ == "__main__":
+    main()
+import sys
+class FastAreader :
+    ''' 
+    Define objects to read FastA files.
+    
+    instantiation: 
+    thisReader = FastAreader ('testTiny.fa')
+    usage:
+    for head, seq in thisReader.readFasta():
+        print (head,seq)
+    '''
+    def __init__ (self, fname=None):
+        '''contructor: saves attribute fname '''
+        self.fname = fname
+            
+    def doOpen (self):
+        ''' Handle file opens, allowing STDIN.'''
+        if self.fname is None:
+            return sys.stdin
+        else:
+            return open(self.fname)
+        
+    def readFasta (self):
+        ''' Read an entire FastA record and return the sequence header/sequence'''
+        header = ''
+        sequence = ''
+        
+        with self.doOpen() as fileH:
+            
+            header = ''
+            sequence = ''
+            
+            # skip to first fasta header
+            line = fileH.readline()
+            while not line.startswith('>') :
+                line = fileH.readline()
+            header = line[1:].rstrip()
+
+            for line in fileH:
+                if line.startswith ('>'):
+                    yield header,sequence
+                    header = line[1:].rstrip()
+                    sequence = ''
+                else :
+                    sequence += ''.join(line.rstrip().split()).upper()
+
+        yield header,sequence
+        
