@@ -42,8 +42,7 @@ class NucParams:
         for nuc in inSeq: #for statment itertes through every nucleotide acceptable within dictionary created within innit
             if inSeq in self.nucComp: #if sequence contains valid nucleotide then add 1
                 self.nucComp[nuc] += 1 #added one into nucleotide and stored within dictionary nucComp created within iniit
-
-        pass
+                
     def aaComposition(self):
         return self.aaComp
     def nucComposition(self):
