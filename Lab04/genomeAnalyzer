@@ -1,17 +1,53 @@
 from sequenceAnalysis import NucParams, FastAreader
-def main (fileName=None):
-    myReader = FastAreader(fileName) 
-    myNuc = NucParams()
-    for head, seq in myReader.readFasta() :
-        myNuc.addSequence(seq)
-        
-    # sort codons in alpha order, by Amino Acid
+class genomeAnalyzer:
+    def __init__(self, filename='testGenome.fa'):
+        self.genomeAnalyzer(filename)
     
-    # calculate relative codon usage for each codon and print
-    for nucI in nucs:
-        ...
-        print ('{:s} : {:s} {:5.1f} ({:6d})'.format(nuc, aa, val*100, thisCodonComp[nuc]))
+    def genomeAnalyzer(self, filename):
+        self.myReader = FastAreader(filename)
+        length, nucParams = self.sequenceLength(self.myReader)
+        print('sequence length = {:.2f}Mb'.format(length),
+              "\n")
 
-if __name__ == "__main__":
-    main('testGenome.fa') # make sure to change this in order to use stdin
-    
+        self.gc = self.gcContent(nucParams)
+        print('GC content = {:.1f}%'.format(self.gc),
+            " \n")
+         #Calculate codon usage
+        codonCount = nucParams.codonComposition()
+        for codons in sorted(codonCount): #Makes sure all codons are alphabetically sorted
+            total = codonCount[codons]
+            aa = nucParams.rnaCodonTable[codons]
+            aaCount = nucParams.aaComposition()[aa]
+
+            if aaCount != 0:
+                finalTotal = (total/aaCount) * 100
+            else:
+                finalTotal = (total/1) * 100
+
+            print('{} : {} {:5.1f}% ({:6d})'.format(codons, aa, finalTotal, total))
+
+
+
+    ##determining the GC Content
+    def gcContent(self, nucParams):
+
+        nucComp = nucParams.nucComposition()
+        gc = nucComp['G'] + nucComp['C']
+        gc = gc/nucParams.nucCount() * 100
+
+        return gc
+
+
+
+    ##determining sequence length
+    def sequenceLength(self, myReader):
+        nucParams = NucParams('')
+        for head, seq in myReader.readFasta():
+            nucParams.addSequence(seq)
+
+        length = nucParams.nucCount()/1000000
+        return length , nucParams
+
+
+
+genomeAnalyzer()
