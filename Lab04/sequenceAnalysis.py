@@ -45,6 +45,7 @@ class FastAreader :
                     sequence += ''.join(line.rstrip().split()).upper()
 
         yield header,sequence
+        
 class NucParams:
     rnaCodonTable = {
     # RNA codon table
@@ -99,6 +100,7 @@ class NucParams:
         return self.codonComp
     def nucCount(self):
         return sum(self.nucComp.values())
+
 class ProteinParam :
     aa2mw = {
         'A': 89.093,  'G': 75.067,  'M': 149.211, 'S': 105.093, 'C': 121.158, #stored molecular weight of amino acids
