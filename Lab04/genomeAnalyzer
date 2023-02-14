@@ -10,7 +10,7 @@ def main (fileName=None):
     # calculate relative codon usage for each codon and print
     for nucI in nucs:
         ...
-        print ('{:s} : {:s} {:5.1f} ({:6d})'.format(NucParams.nucCount, NucParams.aaComposition, NucParams.nucCount*100, NucParams.codonComposition[NucParams.nucCountuc]))
+        print ('{:s} : {:s} {:5.1f} ({:6d})'.format(nuc, aa, val*100, thisCodonComp[nuc]))
 
 if __name__ == "__main__":
     main('testGenome.fa') # make sure to change this in order to use stdin

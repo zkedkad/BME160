@@ -178,18 +178,17 @@ class NucParams:
             for i in codon:
                 if i in self.nucComposition:
                     codon = {}
-            #replace() this was required of me but didn't know its use
             if codon in self.rnaCodonTable:
-                self.aaComposition += 1
-                self.codonComposition += 1
+                self.aaComp += 1
+                self.codonComp += 1
 
         pass
     def aaComposition(self):
-        return self.aaComposition
+        return self.aaComp
     def nucComposition(self):
-        return self.nucComposition
+        return self.nucComp
     def codonComposition(self):
-        return self.codonComposition
+        return self.codonComp
     def nucCount(self):
-        return sum(self.nucComposition.values())
+        return sum(self.nucComp.values())
   
