@@ -1,16 +1,16 @@
-import sequenceAnalysis as seqAnalysis
+from sequenceAnalysis import NucParams, FastAreader
 def main (fileName=None):
-    myReader = seqAnalysis.FastAreader(fileName) 
-    myNuc = seqAnalysis.NucParams()
+    myReader = FastAreader(fileName) 
+    myNuc = NucParams()
     for head, seq in myReader.readFasta() :
         myNuc.addSequence(seq)
         
     # sort codons in alpha order, by Amino Acid
     
     # calculate relative codon usage for each codon and print
-    for nucI in nucs:
+    for nucI in nu2cs:
         ...
-        print ('{:s} : {:s} {:5.1f} ({:6d})'.format(nucCount, aaComposition, val*100, codonComposition[nuc]))
+        print ('{:s} : {:s} {:5.1f} ({:6d})'.format(NucParams.nucCount, NucParams.aaComposition, val*100, NucParams.codonComposition[nuc]))
 
 if __name__ == "__main__":
     main('testGenome.fa') # make sure to change this in order to use stdin
