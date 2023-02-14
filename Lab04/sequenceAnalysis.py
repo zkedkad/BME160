@@ -149,6 +149,7 @@ class ProteinParam :
             total += self.aa2mw[key] * self.count[key] - self.mwH2O * self.count[key] #sum calculation of molecular weight minus weight of water
         return total
     import sys
+import sys
 def main():
     inString = input('protein sequence?')
     while inString:
