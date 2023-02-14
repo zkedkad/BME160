@@ -1,53 +1,24 @@
-from sequenceAnalysis import NucParams, FastAreader, ProteinParam
-class genomeAnalyzer:
-    def __init__(self, filename='testGenome.fa'):
-        self.genomeAnalyzer(filename)
+
+from sequenceAnalysis import NucParams, ProteinParam, FastAreader
+def main (fileName=None):
+    myReader = FastAreader(fileName) 
+    myNuc = NucParams()
+    for head, seq in myReader.readFasta():
+        myNuc.addSequence(seq)
+    print('sequence length = {:0.2f} Mb'.format(myNuc.nucCount() / (1000000))+ 
+    '/n') #print sequence length grabbed from function in sequence analysis and divide to make it into correct unit for Mb    
+    for nuc in myNuc.codonComp:
+        thisCodonComp = myNuc.rnaCodonTable[nuc]
+        aa = myNuc.aaComp[myNuc.rnaCodonTable[nuc]]
+        val = myNuc.codonComp[nuc]/aa
+
+
+    # sort codons in alpha order, by Amino Acid
     
-    def genomeAnalyzer(self, filename):
-        self.myReader = FastAreader(filename)
-        length, nucParams = self.sequenceLength(self.myReader)
-        print('sequence length = {:.2f}Mb'.format(length),
-              "\n")
+    # calculate relative codon usage for each codon and print
+    for nucI in nuc:
+        ...
+        print ('{:s} : {:s} {:5.1f} ({:6d})'.format(nuc, aa, val*100, thisCodonComp[nuc]))
 
-        self.gc = self.gcContent(nucParams)
-        print('GC content = {:.1f}%'.format(self.gc),
-            " \n")
-         #Calculate codon usage
-        codonCount = nucParams.codonComposition()
-        for codons in sorted(codonCount): #Makes sure all codons are alphabetically sorted
-            total = codonCount[codons]
-            aa = nucParams.rnaCodonTable[codons]
-            aaCount = nucParams.aaComposition()[aa]
-
-            if aaCount != 0:
-                finalTotal = (total/aaCount) * 100
-            else:
-                finalTotal = (total/1) * 100
-
-            print('{} : {} {:5.1f}% ({:6d})'.format(codons, aa, finalTotal, total))
-
-
-
-    ##determining the GC Content
-    def gcContent(self, nucParams):
-
-        nucComp = nucParams.nucComposition()
-        gc = nucComp['G'] + nucComp['C']
-        gc = gc/nucParams.nucCount() * 100
-
-        return gc
-
-
-
-    ##determining sequence length
-    def sequenceLength(self, myReader):
-        nucParams = NucParams('')
-        for head, seq in myReader.readFasta():
-            nucParams.addSequence(seq)
-
-        length = nucParams.nucCount()/1000000
-        return length , nucParams
-
-
-
-genomeAnalyzer()
+if __name__ == "__main__":
+    main('testGenome.fa') # make sure to change this in order to use stdin

@@ -1,14 +1,39 @@
-from sequenceAnalysis import NucParams, ProteinParam, FastAreader 
-class genomeAnalyzer:
-    def __init__(self, filename=None):
-        self.inseq=filename
-    def codons(self, filename):
-        myReader = FastAreader(filename)
-        myNuc = NucParams()
-        for head,seq in myReader.readFasta():
-            myNuc.addSequence(seq)
-        print(myNuc.aaCompDict)
-        myNuc.aaCompDict(seq)
-    def main(filename=testGenome.fa):
-        pass
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+'''
+Created on Sat Feb 11 19:10:06 2023
 
+@author: emilycheng
+'''
+
+import sequenceAnalysis as seqA
+
+def main (fileName=None):
+    
+    myReader = seqA.FastAreader(fileName) 
+    myNuc = seqA.NucParams()
+    for head, seq in myReader.readFasta() : #Loop through header and sequence in FastA
+        myNuc.addSequence(seq)
+    
+    
+    print('sequence length = {:0.2f} Mb'.format(myNuc.nucCount() / (1000000))) #Print the length of the sequence in the untit Mb
+    print() #print a blank line
+
+    gcContent = ((myNuc.nucComp['G'] + myNuc.nucComp['C']) / (myNuc.nucCount())) * 100 #Get the GC content of the sequence
+    print('GC content = {:0.1f}%'.format(gcContent)) #Print the GC content of the sequence
+    print()
+    
+    listoflist = [] #Create an empty list
+    
+    for nuc in myNuc.codonComp:
+        codon = myNuc.rnaCodonTable[nuc] #Get the codons from the table
+        translate = myNuc.aaComp[myNuc.rnaCodonTable[nuc]] #Translate the codon in the table to the associated amino acid
+        val = myNuc.codonComp[nuc] / translate #Divide the count of codons by the count of amino acids that it translates to to get codon frequency
+        listoflist.append([nuc, codon, val * 100, myNuc.codonComp[nuc]]) #Add nucleotide, amino acid, percentage, and total count
+        listoflist.sort(key = lambda x: (x[1], x[0])) #Sort by amino acid, then the codon, sort codons in alpha order, by Amino Acid
+
+    for x in range(len(listoflist)):
+        print ('{:s} : {:s} {:5.1f} ({:6d})'.format(listoflist [x][0], listoflist [x][1], listoflist[x][2], listoflist[x][3])) #format the list of list by its place in the list
+    
+if __name__ == "__main__":
+    main("testGenome.fa") # make sure to change this in order to use stdin
