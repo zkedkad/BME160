@@ -25,7 +25,7 @@ class NucParams:
     dnaCodonTable = {key.replace('U','T'):value for key, value in rnaCodonTable.items()}
 
     def __init__ (self, inString=''): 
-        self.addSequence = inString #retrieves string to insert into addsequence
+        self.addSequence(inString) #retrieves string to insert into addsequence
         self.inString = inString #initializes variable to saves the sequence within the variable for later use
         self.codonComp = {codon:0 for codon in self.rnaCodonTable} #codon intiialized to 0 and dictionary created for codon
         self.aaComp = {aa:0 for aa in self.rnaCodonTable.values()} #amino acid initialized to 0 and dictionary created to amino acids within codon table values (single letters)
