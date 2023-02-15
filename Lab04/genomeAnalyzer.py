@@ -22,9 +22,6 @@ def main (fileName=None):
     
     for i in range(len(emptylist)):
         print('{:s} : {:s} {:5.1f} ({:6d})'.format(emptylist[i][0], emptylist[i][1], emptylist[i][2], emptylist[i][3])) #format the list of list by its place in the list
-    # calculate relative codon usage for each codon and print
-    # for nucI in nuc:
-        # print ('{:s} : {:s} {:5.1f} ({:6d})'.format(nuc, aa, val*100, thisCodonComp[nuc]))
 
 if __name__ == "__main__":
     main('testGenome.fa') # make sure to change this in order to use stdin
