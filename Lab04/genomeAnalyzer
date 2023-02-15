@@ -8,10 +8,10 @@ def main (fileName=None):
 
     print('sequence length = {:0.2f} Mb'.format(myNuc.nucCount() / (1000000))+ 
     '/n') #print sequence length grabbed from function in sequence analysis and divide to make it into correct unit for Mb    
-    GC_content = (myNuc.nucComp['G'] + myNuc.nucComp['C']) / (myNuc.nucCount('GCTNUA'))
+    GC_content = (myNuc.nucComp['G'] + myNuc.nucComp['C']) / (myNuc.nucCount())
     GC_percentage = GC_content * 100
     print("GC content = {:0.1f}".format(GC_percentage))
-    
+
     emptylist = []
 
     for nuc in myNuc.codonComp:
@@ -28,4 +28,4 @@ def main (fileName=None):
         # print ('{:s} : {:s} {:5.1f} ({:6d})'.format(nuc, aa, val*100, thisCodonComp[nuc]))
 
 if __name__ == "__main__":
-    main() # make sure to change this in order to use stdin
+    main('testGenome.fa') # make sure to change this in order to use stdin
