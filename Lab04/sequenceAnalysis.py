@@ -39,7 +39,7 @@ class NucParams:
             if codon in self.rnaCodonTable.keys(): 
                     self.aaComp[self.rnaCodonTable[codon]] += 1 #for i in codon: #for statment iterates through every set codon made prior
         for nuc in inSeq: #for statment itertes through every nucleotide acceptable within dictionary created within innit
-            if inSeq in self.nucComp: #if sequence contains valid nucleotide then add 1
+            if nuc in inSeq: #if sequence contains valid nucleotide then add 1
                 self.nucComp[nuc] += 1 #added one into nucleotide and stored within dictionary nucComp created within iniit
                 
     def aaComposition(self):
