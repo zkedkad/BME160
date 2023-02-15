@@ -6,11 +6,10 @@ def main (fileName=None):
     for head, seq in myReader.readFasta():
         myNuc.addSequence(seq)
 
-    print('sequence length = {:0.2f} Mb'.format(myNuc.nucCount() / (1000000))+ 
-    '/n') #print sequence length grabbed from function in sequence analysis and divide to make it into correct unit for Mb    
+    print('sequence length = {:0.2f} Mb \n'.format(myNuc.nucCount() / (1000000))) #print sequence length grabbed from function in sequence analysis and divide to make it into correct unit for Mb    
     GC_content = (myNuc.nucComp['G'] + myNuc.nucComp['C']) / (myNuc.nucCount())
     GC_percentage = GC_content * 100
-    print("GC content = {:0.1f}".format(GC_percentage))
+    print("GC content = {:0.1f} \n".format(GC_percentage))
 
     emptylist = []
 
