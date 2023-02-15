@@ -34,11 +34,10 @@ class NucParams:
     def addSequence (self, inSeq): #inSeq for sequence
         for index in range (0, len(inSeq), 3): #start, seqnece length read(end), and final is step (increments of 3)
             codon = inSeq[index:index+3].upper().replace(' ', '').replace('T', 'U') #codon is every 3 nucleotides, uppercases, removes white space and leaves only U rather than T b/c dictionary key does't match
-            for i in codon: #for statment iterates through every set codon made prior
-                if i in self.codonComp.keys(): #interates through codon and compares to rnaCodonTable dictionary made within init statement
+            if codon in self.codonComp.keys(): #interates through codon and compares to rnaCodonTable dictionary made within init statement
                     self.codonComp[codon] += 1 #when if statement true, adds one to codon within the self.codonComp and stores within codon within init
-                if codon in self.rnaCodonTable.keys(): 
-                    self.aaComp[self.rnaCodonTable[codon]] += 1
+            if codon in self.rnaCodonTable.keys(): 
+                    self.aaComp[self.rnaCodonTable[codon]] += 1 #for i in codon: #for statment iterates through every set codon made prior
         for nuc in inSeq: #for statment itertes through every nucleotide acceptable within dictionary created within innit
             if inSeq in self.nucComp: #if sequence contains valid nucleotide then add 1
                 self.nucComp[nuc] += 1 #added one into nucleotide and stored within dictionary nucComp created within iniit
