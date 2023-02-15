@@ -19,7 +19,7 @@ def main (fileName=None):
         aa = myNuc.aaComp[myNuc.rnaCodonTable[nuc]]
         val = myNuc.codonComp[nuc] / aa
         emptylist.append([nuc, thisCodonComp, val * 100, myNuc.codonComp[nuc]]) #Add nucleotide, amino acid, percentage, and total count
-        emptylist.sort(key = lambda x: (i[1], i[0]))
+        emptylist.sort(key = lambda x: (x[1], x[0]))
     
     for i in range(len(emptylist)):
         print('{:s} : {:s} {:5.1f} ({:6d})'.format(emptylist[i][0], emptylist[i][1], emptylist[i][2], emptylist[i][3])) #format the list of list by its place in the list
