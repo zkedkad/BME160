@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+# Name: Ziad Kedkad (zkedkad)
+# Group Members: Qudsi Aljabiri, Justin Ngyuen, Aurko Mahesh, Emily Cheng
 class NucParams:
     '''NucParams is a class that calculates the codon composition, amino acid composition, and nucleotide composition. It organizes
     and sifts through dense amount of genomic data from a test file and outputs data about that data. It organizes the data from nucleotides
