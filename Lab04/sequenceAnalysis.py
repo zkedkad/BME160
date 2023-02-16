@@ -1,4 +1,7 @@
 class NucParams:
+    '''NucParams is a class that calculates the codon composition, amino acid composition, and nucleotide composition. It organizes
+    and sifts through dense amount of genomic data from a test file and outputs data about that data. It organizes the data from nucleotides
+    to codon counts and stores them into varaibles and dictionaries that are later processed through our genome analyzer program.'''
     rnaCodonTable = {
     # RNA codon table
     # U
@@ -25,6 +28,7 @@ class NucParams:
     dnaCodonTable = {key.replace('U','T'):value for key, value in rnaCodonTable.items()}
 
     def __init__ (self, inString=''): 
+        '''initializes data, sets value for variables, and creates dictionary'''
         self.addSequence(inString) #retrieves string to insert into addsequence
         self.inString = inString #initializes variable to saves the sequence within the variable for later use
         self.codonComp = {codon:0 for codon in self.rnaCodonTable} #codon intiialized to 0 and dictionary created for codon
@@ -32,6 +36,7 @@ class NucParams:
         self.nucComp = {nuc:0 for nuc in 'ACGTNU'} #nucleotide initialized to 0 and nucleotide set to only the valid charecters
 
     def addSequence (self, inSeq): #inSeq for sequence
+        '''processes genomic data to organize values of nucleotides and codons which are stored into variable lists'''
         for index in range (0, len(inSeq), 3): #start, seqnece length read(end), and final is step (increments of 3)
             codon = inSeq[index:index+3].upper().replace(' ', '').replace('T', 'U') #codon is every 3 nucleotides, uppercases, removes white space and leaves only U rather than T b/c dictionary key does't match
             if codon in self.codonComp.keys(): #interates through codon and compares to rnaCodonTable dictionary made within init statement
@@ -43,15 +48,26 @@ class NucParams:
                 self.nucComp[nuc] += 1 #added one into nucleotide and stored within dictionary nucComp created within iniit
                 
     def aaComposition(self):
-        return self.aaComp
+        '''returns value stored in dictionary aaComp'''
+        return self.aaComp #returns value calculated within add sequence
     def nucComposition(self):
-        return self.nucComp
+        '''returns value stored in dictionary'''
+        return self.nucComp #returns value calculated within add sequence
     def codonComposition(self):
-        return self.codonComp
+        '''returns value stored in dictionary'''
+        return self.codonComp #returns value calculated within add sequence
     def nucCount(self):
-        return sum(self.nucComp.values())
+        '''returns value stored in dictionary'''
+        return sum(self.nucComp.values()) #returns value calculated within add sequence specifically within the values of nucComp dictionary
 
 class ProteinParam :
+    ''' These tables are for calculating:
+     molecular weight (aa2mw), along with the mol. weight of H2O (mwH2O)
+     absorbance at 280 nm (aa2abs280)
+     pKa of positively charged Amino Acids (aa2chargePos)
+     pKa of negatively charged Amino acids (aa2chargeNeg)
+     and the constants aaNterm and aaCterm for pKa of the respective termini
+'''
     aa2mw = {
         'A': 89.093,  'G': 75.067,  'M': 149.211, 'S': 105.093, 'C': 121.158, #stored molecular weight of amino acids
         'H': 155.155, 'N': 132.118, 'T': 119.119, 'D': 133.103, 'I': 131.173,
@@ -62,6 +78,7 @@ class ProteinParam :
     Initializes the objects used later on as well as comparing input to dictionary to ensure all charecters used is valid
     '''
     def __init__ (self, protein):
+        '''initializes variables, lists, and dictionaries used later'''
         self.mwH2O = 18.015
         self.protein = protein.upper() #uppercase inputed amino acid
         self.count = {}    #counts input and stores it
@@ -69,6 +86,7 @@ class ProteinParam :
             self.count[key] = protein.count(key)            
     '''Counts every amino acid within the inputted value'''      
     def aaCount (self):
+        '''counts # of amino acids'''
         return sum(self.count.values()) #returns the sum of the values within given input
     
     '''
@@ -77,6 +95,7 @@ class ProteinParam :
         a second mid point after the first search is done (quarters). 
         '''
     def pI_Binary(self, mid = 700, add = 350):
+        '''counts the pI or intermediate pH of following composition of amino acids'''
         if (abs(self._charge_(0)) < abs(self._charge_(0.01))): #if the pH is below 0.01 then it will be 0
             return 0
         elif (abs(self._charge_(14)) < abs(self._charge_(13.99))): #if the pH is bigger than 13.99 it is 14
@@ -94,6 +113,7 @@ class ProteinParam :
         then stores the real value within charge in which the value is returned. 
         '''
     def pI (self):
+        '''calculates pI for each amino acid'''
         ph = 0.01 #initialize the variable to 0.01
         charge = self._charge_(0) #find the charge at pH 0 
         while ph <= 14:
@@ -104,11 +124,13 @@ class ProteinParam :
         return 14
     '''Calculates the composition of the inputted amino acid sequence '''
     def aaComposition (self) :
+        '''calculates compoisiton of amino acids and returns the count'''
         return self.count #counts object inputed and returns aaComposition
 
     '''Using an equation to find the net charge at specfic pH value. Using the pH and current pH value, we can calculate the
     total charge based on previous methods using following equation.'''
     def _charge_ (self, ph):
+        '''calculates charge of amino acid sequence and returns value'''
         aaNterm = 9.69 #storing values within variable
         aaCterm = 2.34 #storing values within variable
         aa2chargePos = {'K': 10.5, 'R':12.4, 'H':6} #storing values within variable
@@ -149,6 +171,7 @@ class ProteinParam :
     import sys
 import sys
 def main():
+    '''prints following data poitns calculated within protein params'''
     inString = input('protein sequence?')
     while inString:
         myParamMaker = ProteinParam(inString)
