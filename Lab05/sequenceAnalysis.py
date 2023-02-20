@@ -244,3 +244,5 @@ class FastAreader :
 
         yield header,sequence
         
+class Orf_Finder():
+    pass
