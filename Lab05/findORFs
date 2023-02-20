@@ -57,8 +57,9 @@ def main(inFile = None, options = None):
     '''
     Find some genes.  
     '''
+    from sequenceAnalysis import FastAreader
     thisCommandLine = CommandLine(options)
-    reader = FastaReader(inFile)
+    reader = FastAreader(inFile)
     
     ###### replace the code between comments.
     print (thisCommandLine.args)
