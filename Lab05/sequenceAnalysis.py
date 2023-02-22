@@ -245,4 +245,28 @@ class FastAreader :
         yield header,sequence
         
 class Orf_Finder():
-    pass
+    nuc_dict = {'A':'T', 'C':'G', 'G':'C', 'T':'A'} #valid nucleotide conversions dictionary
+    cd_start = ['ATG'] #valid nucleotide start codon
+    cd_stop = ['TGA', 'TAG', 'TAA'] #valid nucleotide stop codon
+
+    def __init__(self, seq): 
+        self.seq = seq #store seq in variable
+        self.orfs = [] #store list of valid open reading frams
+
+    def locate_ORFs(self):
+        '''Finds ORFs from 5'-3' strand and returns a list
+        of the available ORFs detected into a list'''
+        pos_start = []
+        start_nuc, start_codon = 0 
+        for codon_frame in range(0,3):
+            start_codon, start_nuc = 0 
+            pos_start = [] #clears start pos for each frame
+            for index in range(codon_frame, len(self.seq), 3):
+                codon = self.seq[index:index+3] #sets length of codon to 3 nucleotides
+                if codon == self.cd_start:
+                    pos_start.append(index)
+                    start_codon, start_nuc = 1
+
+    def reverse_strand(self):
+        #return .join([self.nuc_dict[base] for base in self.seq[::-1]])
+        pass
