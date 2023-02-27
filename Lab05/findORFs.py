@@ -2,7 +2,7 @@
 # Name: Your full name (CATS account username)
 # Group Members: List full names (CATS usernames) or “None”
 
-
+from sequenceAnalysis import Orf_Finder, FastAreader, ProteinParam, NucParams
 ########################################################################
 # CommandLine
 ########################################################################
@@ -53,16 +53,27 @@ class CommandLine() :
 #
 ########################################################################
    
-def main(inFile = None, options = None):
+def main(MP=None):
     '''
-    Find some genes.  
+    Reads in a fasta file and outputs the ORFs frame, start, stop, 
+    and length position on a output file.
     '''
-    from sequenceAnalysis import FastAreader
-    thisCommandLine = CommandLine(options)
-    reader = FastAreader(inFile)
-    
+    if MP is None:
+        main_program = CommandLine()
+        if main_program.args.longestGene:
+            areader_file = FastAreader()
+            for header, sequence in areader_file.readFasta():
+                print(header)
+                orfData = Orf_Finder(sequence)
+                orfData.locate_ORFs()
+                orfData.locate_reverse_ORFs()
+                fil_list = filter(lambda orf: orf[3] > main_program.args.minGene, orfData.orfs)
+                for reading_frame, start, stop, size, in sorted(fil_list, key=lambda orf:orf[3], reverse = True):
+                    print('{:+d} {:>5d}..{:>5d} {:>5d}'.format(reading_frame, start, stop, size))
+            else:
+                main_program = CommandLine(MP)
+            print(main_program.args)
     ###### replace the code between comments.
-    print (thisCommandLine.args)
     # thisCommandLine.args.longestGene is True if only the longest Gene is desired
     # thisCommandLine.args.start is a list of start codons
     # thisCommandLine.args.stop is a list of stop codons
@@ -71,4 +82,4 @@ def main(inFile = None, options = None):
     #######
     
 if __name__ == "__main__":
-    main(inFile = 'tass2.fa', options = ['-mG=300', '-lG']) # delete this stuff if running from commandline
+    main()
