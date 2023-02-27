@@ -263,9 +263,34 @@ class Orf_Finder():
             pos_start = [] #clears start pos for each frame
             for index in range(codon_frame, len(self.seq), 3):
                 codon = self.seq[index:index+3] #sets length of codon to 3 nucleotides
-                if codon == self.cd_start:
-                    pos_start.append(index)
-                    start_codon, start_nuc = 1
+                if codon == self.cd_start: #if codon equals this start codon
+                    pos_start.append(index) #set position
+                    start_codon, start_nuc = 1 #set start
+
+                if codon in Orf_Finder.cd_stop and start_nuc:
+                    start = pos_start[0] + 1 - codon_frame
+                    stop = index + 3
+                    size = stop - start + 1
+                    self.storeORF((codon_frame%3)+1, start, stop, size)
+                    pos_start = []
+                    start_nuc = 0
+                    start_codon = 1
+
+                if not start_codon and codon  in Orf_Finder.cd_stop: #if a start codon found but stop codon doesn't work (dangling start)
+                    start = 1 #if start found
+                    stop = index + 3 
+                    size = stop - start + 1
+                    self.storeORF((codon_frame%3)+1, start, stop, size)
+                    pos_start = []
+                    start_codon = 1
+
+            if start_codon: #if no stop found but start was found
+                start = pos_start[0] + 1  
+                stop = len(self.seq)
+                size = stop - start + 1
+                self.storeORF((codon_frame%3)+1, start, stop, size)
+
+        return self.orfs
 
     def reverse_strand(self):
         #return .join([self.nuc_dict[base] for base in self.seq[::-1]])
