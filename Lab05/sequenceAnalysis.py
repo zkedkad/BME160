@@ -267,7 +267,7 @@ class Orf_Finder():
                     pos_start.append(index) #set position
                     start_codon, start_nuc = 1 #set start
 
-                if codon in Orf_Finder.cd_stop and start_nuc:
+                if codon in Orf_Finder.cd_stop and start_nuc: #if start and stop found
                     start = pos_start[0] + 1 - codon_frame
                     stop = index + 3
                     size = stop - start + 1
@@ -276,7 +276,7 @@ class Orf_Finder():
                     start_nuc = 0
                     start_codon = 1
 
-                if not start_codon and codon  in Orf_Finder.cd_stop: #if a start codon found but stop codon doesn't work (dangling start)
+                if not start_codon and codon  in Orf_Finder.cd_stop: #start found but not stop(dangling start)
                     start = 1 #if start found
                     stop = index + 3 
                     size = stop - start + 1
@@ -292,6 +292,51 @@ class Orf_Finder():
 
         return self.orfs
 
+    def locate_reverse_ORFs(self):
+        '''Find Orfs on 3'-5' strand and returns that list'''
+        compliment_strand =  self.reverse_strand
+        pos_start = []
+        start_nuc, start_codon = 0
+
+        for reading_frame in range(0, 3): #check frame 1,2,3
+            start_nuc, start_codon = 0 #flag when find codon and start codon
+            pos_start = [] #clear start pos list for each frame
+            for index in range(reading_frame, len(compliment_strand), 3):
+                codon = compliment_strand[index:index+3] #codon set to 3 nuc
+
+                if codon == self.cd_start: #if start codon found
+                    pos_start.append(index)
+                    start_nuc = 1
+                    start_codon = 1
+
+                if codon in Orf_Finder.cd_stop and start_codon: #start and stop found
+                    stop = len(compliment_strand) - pos_start[0]
+                    start = len(compliment_strand) - (index + 2)
+                    if reading_frame == 1: stop += 1
+                    elif reading_frame == 2: stop += 2
+                    size = stop - start + 1
+                    self.storeORF(-1 * ((reading_frame%3)+1), start, stop, size)
+                    pos_start = []
+                    start_nuc = 0
+                    start_codon = 1
+
+                if not start_codon and codon in Orf_Finder.cd_stop: #if no start but stop found
+                    stop = len(compliment_strand)
+                    start = len(compliment_strand) - index - 2
+                    size = stop - start + 1
+                    self.storeORF(-1 * ((reading_frame%3)+1), start, stop, size)
+
+            if start_nuc: #no stop but start found
+                start = pos_start[0] + 1
+                stop = 1
+                size = stop - start + 1
+                self.storeORF(-1 ((reading_frame%3) + 1), start, stop, size)
+        return self.orfs
+
     def reverse_strand(self):
-        #return .join([self.nuc_dict[base] for base in self.seq[::-1]])
-        pass
+        '''returns reversed and compliment strand'''
+        return ''.join([self.nuc_dict[base] for base in self.seq[::-1]])
+
+    def storeORF(self, codon_frame, start, stop, size):
+        '''Stores ORF info found in algorithms'''
+        self.orfs.append([codon_frame, start, stop, size]) #stores information in lists
