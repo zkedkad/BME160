@@ -330,7 +330,7 @@ class Orf_Finder():
                 start = pos_start[0] + 1
                 stop = 1
                 size = stop - start + 1
-                self.storeORF(-1 ((reading_frame%3) + 1), start, stop, size)
+                self.storeORF(-1 * ((reading_frame%3) + 1), start, stop, size)
         return self.orfs
 
     def reverse_strand(self):
