@@ -1,3 +1,7 @@
+#!/usr/bin/env python3
+# Name: Ziad Kedkad (zkedkad)
+# Group Members: Qudsi Aljabiri, Justin Ngyuen, Aurko Mahesh, Emily Cheng
+
 import sequenceAnalysis
 import sys
 

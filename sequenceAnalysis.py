@@ -1,5 +1,7 @@
+#!/usr/bin/env python3
+# Name: Ziad Kedkad (zkedkad)
+# Group Members: Qudsi Aljabiri, Justin Ngyuen, Aurko Mahesh, Emily Cheng
 import sys
-#import proteinParam
 
 class NucParams:
 
@@ -48,10 +50,10 @@ class NucParams:
         '''initialize codon array to collect codons found in sequence'''
         codonsFound = []
 
-        #'''clean up any inputs that aren't accepted'''
-        #for char in rawSeq:
-        #    if char not in NucParams.accepted:
-        #        rawSeq = rawSeq.replace(char, "")
+        '''clean up any inputs that aren't accepted
+        for char in rawSeq:
+           if char not in NucParams.accepted:
+                rawSeq = rawSeq.replace(char, "")'''
 
         '''get nucleotide count for all valid nucleotides in {AGCTUN}'''
         for nuc in rawSeq:
