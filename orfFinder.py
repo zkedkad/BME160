@@ -1,3 +1,4 @@
+import sequenceAnalysis
 import sys
 
 class FastAreader:
