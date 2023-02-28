@@ -257,7 +257,8 @@ class Orf_Finder():
         '''Finds ORFs from 5'-3' strand and returns a list
         of the available ORFs detected into a list'''
         pos_start = []
-        start_nuc, start_codon = 0 
+        start_nuc = 0
+        start_codon = 0 
         for codon_frame in range(0,3):
             start_codon, start_nuc = 0 
             pos_start = [] #clears start pos for each frame
@@ -296,7 +297,8 @@ class Orf_Finder():
         '''Find Orfs on 3'-5' strand and returns that list'''
         compliment_strand =  self.reverse_strand
         pos_start = []
-        start_nuc, start_codon = 0
+        start_nuc = 0
+        start_codon = 0
 
         for reading_frame in range(0, 3): #check frame 1,2,3
             start_nuc, start_codon = 0 #flag when find codon and start codon
