@@ -2,7 +2,7 @@
 # Name: Your full name (CATS account username)
 # Group Members: List full names (CATS usernames) or “None”
 
-from sequenceAnalysis import Orf_Finder, FastAreader, ProteinParam, NucParams
+from Other.sequenceAnalysiss import Orf_Finder, FastAreader, ProteinParam, NucParams
 ########################################################################
 # CommandLine
 ########################################################################
@@ -56,7 +56,7 @@ class CommandLine():
 # 
 #
 ########################################################################
-from sequenceAnalysis import NucParams, ProteinParam, FastAreader, Orf_Finder
+from Other.sequenceAnalysiss import NucParams, ProteinParam, FastAreader, Orf_Finder
 import sys
 def output(infile, outfile):
 

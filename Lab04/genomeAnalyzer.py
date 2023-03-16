@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # Name: Ziad Kedkad (zkedkad)
 # Group Members: Qudsi Aljabiri, Justin Ngyuen, Aurko Mahesh, Emily Cheng
-from sequenceAnalysis import NucParams, ProteinParam, FastAreader
+from Other.sequenceAnalysiss import NucParams, ProteinParam, FastAreader
 def main (fileName=None):
     '''Function initializes all the data and functions from sequenceAnalysis to be used in this program. This also prints out
     and calculates the final data points which are displayed to the user. This program also functions to grab the file
